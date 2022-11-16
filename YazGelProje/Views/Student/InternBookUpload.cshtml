@@ -1,0 +1,469 @@
+﻿@model IEnumerable<YazGelProje.Models.InternBookToGive>
+@{
+
+    Layout = null;
+}
+
+@{
+    YazGelProje.Models.MyContext context = new YazGelProje.Models.MyContext();
+    string studentNumber = User.Identity.Name;
+    int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
+    YazGelProje.Models.InternBookToGive internBookToGive = context.InternBookToGives.Where(x => x.StudentId == studentId).FirstOrDefault();
+}
+
+<head>
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/fontawesome.css">
+    <script src="~/Content/js/jquery.blockUI.js"></script>
+    <script src="~/Content/js/jquery.form.js"></script>
+    <script src="~/Content/js/jquery.js"></script>
+    <script src="~/Content/js/jquery.MetaData.js"></script>
+    <script src="~/Content/js/jquery.MultiFile.js"></script>
+    <script src="~/Content/js/jquery.MultiFile.pack.js"></script>
+    <script src="~/Content/js/jquery.validate.js"></script>
+</head>
+
+<link href="~/Content/js/basic.css" rel="stylesheet" />
+<link href="~/Content/js/dropzone.css" rel="stylesheet" />
+<script src="~/Content/js/dropzone.min.js"></script>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Content/js/dropzone.min.js"></script>
+
+<script>
+    function InternBookRemove(id) {
+
+        if (confirm('Dosya Silinsin Mi?')) {
+            var model = {
+                "id": id
+            };
+
+            $.ajax({
+                url: '/Student/InternBookRemove',
+                type: "POST",
+                data: model,
+                success: function (result) {
+                    alert("Dosya Başarıyla Silidi")
+                    location.reload();
+                }
+            });
+
+        }
+    }
+</script>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        Dropzone.autoDiscover = false;
+        $('#myDropzone1').dropzone({
+            paramName: "files",
+            clickable: '#previews',
+            previewsContainer: "#previewFiles",
+            autoProcessQueue: false,
+            uploadMultiple: true,
+            parallelUploads: 100,
+            maxFiles: 1,
+            maxFilesize: 100,
+            addRemoveLinks: true,
+            dictResponseError: 'Server not Configured',
+            acceptedFiles: ".pdf",
+            dictInvalidFileType: "Sisteme pdf ve rar uzantılı dosya yükleyebilirsiniz!",
+            dictCancelUpload: "Dosya Yükleniyor.",
+            dictMaxFilesExceeded: "Sisteme en fazla 1 adet dosya yükleyebilirsiniz!",
+            init: function () {
+                var self = this;
+                self.options.addRemoveLinks = true;
+                self.options.dictRemoveFile = "Dosyayı Sil";
+                self.on("addedfile", function (file) {
+                    console.log('new file added ', file);
+                    $('.dz-success-mark').hide();
+                    $('.dz-error-mark').hide();
+                });
+                self.on("sending", function (file) {
+                    console.log('upload started', file);
+                    $('.meter').show();
+                });
+                self.on("totaluploadprogress", function (progress) {
+                    console.log("progress ", progress);
+                    $('.roller').width(progress + '%');
+                });
+
+                self.on("queuecomplete", function (progress) {
+                    $('.meter').delay(999).slideUp(999);
+                });
+                self.on("removedfile", function (file) {
+                    console.log(file);
+                });
+
+                $('#Submit').on("click", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (self.getQueuedFiles().length > 0) {
+                        self.processQueue();
+                        setInterval(() => window.location.reload(false), 500);
+                    } else {
+                        self.uploadFiles([]);
+                        $('#myDropzone1').submit();
+                        alert("Bir Hata Oluştu Dosya Yüklenemedi. Lütfen Tekrar Deneyiniz!");
+
+                    }
+
+                });
+
+                self.on("successmultiple", function () {
+                    alert("Dosya Yükleme İşleminiz Başarıyla Gerçekleştirilmiştir.");
+
+                });
+            }
+        });
+
+
+    })
+
+</script>
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Paneli</title>
+    <meta http-equiv=Content-type content=text/html; charset=UTF-8 />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- inject:css-->
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/bootstrap/bootstrap.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/daterangepicker.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/fontawesome.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/footable.standalone.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/fullcalendar@5.2.0.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/jquery-jvectormap-2.0.5.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/jquery.mCustomScrollbar.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/leaflet.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/line-awesome.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/MarkerCluster.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/MarkerCluster.Default.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/select2.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/slick.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/star-rating-svg.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/trumbowyg.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/wickedpicker.min.css">
+
+    <link rel="stylesheet" href="~/style.css">
+    <!-- endinject -->
+</head>
+<body>
+    <!--NAVBAR-->
+    <div class="mobile-search">
+        <form class="search-form">
+            <span data-feather="search"></span>
+            <input class="form-control mr-sm-2 box-shadow-none" type="text" placeholder="Ara...">
+        </form>
+    </div>
+    <div class="mobile-author-actions"></div>
+    <header class="header-top">
+        <nav class="navbar navbar-light">
+            <div class="navbar-left">
+                <a href="" class="sidebar-toggle">
+                    <img class="svg" src="~/img/svg/bars.svg" alt="img">
+                </a>
+                <a class="navbar-brand" href="/Student/Home"><img class="dark" src="~/Content/Resimler/kou.png" alt="svg" style="width:50px; height:50px;"></a>
+            </div>
+            @{
+                string userIdentityName = User.Identity.Name;
+                string internCase = context.Students.Where(x => x.StudentNumber == userIdentityName).Select(x => x.InternCase.Case).FirstOrDefault();
+                <h2 style="font-weight:bold;font-style:italic;color:royalblue">Staj Durumunuz: @internCase</h2>
+            }
+            <div class="navbar-right">
+                <ul class="navbar-right__menu">
+                    <li class="nav-flag-select">
+                        <div class="dropdown-custom">
+                            <a href="javascript:;" class="nav-item-toggle">
+                                <img src="~/img/tur.png" alt=""
+                                     class="rounded-circle">
+                            </a>
+                            <div class="dropdown-wrapper dropdown-wrapper--small">
+                                <a href=""><img src="~/img/tur.png" alt=""> Turkish</a>
+                                <a href=""><img src="~/img/eng.png" alt=""> English</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- ends: .nav-flag-select -->
+                    <li class="nav-author">
+                        <div class="dropdown-custom">
+                            <a href="javascript:;" class="nav-item-toggle">
+                                <img src="~/img/student.png" alt=""
+                                     class="rounded-circle">
+                            </a>
+                            <div class="dropdown-wrapper">
+                                <div class="nav-author__info">
+                                    <div class="author-img">
+                                        <img src="~/img/student.png" alt="" class="rounded-circle">
+                                    </div>
+                                    <div>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            string name = context.Students.Where(x => x.StudentNumber == userIdentityName).Select(x => x.Name).FirstOrDefault();
+                                            string surname = context.Students.Where(x => x.StudentNumber == userIdentityName).Select(x => x.Surname).FirstOrDefault();
+                                            <h6>@name @surname</h6>
+                                        }
+                                        <span>Öğrenci</span>
+                                    </div>
+                                </div>
+                                <div class="nav-author__options">
+                                    <ul>
+                                        <li>
+                                            <a href="@Url.Action("ProfileEdit","Student")">
+                                                <span data-feather="user"></span> Profil
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a href="@Url.Action("StudentLogout","Login")" class="nav-author__signout">
+                                        <span data-feather="log-out"></span> Çıkış Yap
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- ends: .dropdown-wrapper -->
+                        </div>
+                    </li>
+                    <!-- ends: .nav-author -->
+                </ul>
+                <!-- ends: .navbar-right__menu -->
+                <div class="navbar-right__mobileAction d-md-none">
+                    <a href="#" class="btn-search">
+                        <span data-feather="search"></span>
+                        <span data-feather="x"></span>
+                    </a>
+                    <a href="#" class="btn-author-action">
+                        <span data-feather="more-vertical"></span>
+                    </a>
+                </div>
+            </div>
+            <!-- ends: .navbar-right -->
+        </nav>
+    </header>
+    <!--NAVBAR SON-->
+
+    <main class="main-content">
+        <!--SIDEBAR-->
+        <aside class="sidebar-wrapper">
+            <div class="sidebar sidebar-collapse" id="sidebar">
+                <div class="sidebar__menu-group">
+                    <ul class="sidebar_nav">
+                        <li>
+                            <a href="@Url.Action("FileUpload","Student")" class="">
+                                <span data-feather="file-plus" class="nav-icon"></span>
+                                <span class="menu-text">Staj Kabul Formu Yükle</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("InternBookUpload","Student")" class="">
+                                <span data-feather="file-plus" class="nav-icon"></span>
+                                <span class="menu-text">Staj Defteri Yükle</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        <!--SIDEBAR SON-->
+
+
+        <div class="contents">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 mb-30">
+                        <div class="card mt-30">
+                            <div class="card-body">
+                                @if (User.Identity.IsAuthenticated == true)
+                                {
+                                    <form action="/Student/InternBookUpload" method="post" name="myDropzone1" id="myDropzone1" enctype="multipart/form-data">
+                                        <br />
+                                        <div>
+                                            <div id="previews" class="dz-default dz-message box__input dropzone" style="background-color: aliceblue ">
+                                                <div style="text-align:center">
+                                                    <i class="fa fa-cloud-upload" style="font-size:43px;position:relative;top:4px;"></i> <span style="margin-left:20px"><p style="font-size:25px">Lütfen yüklemek istediğiniz staj defterini seçiniz ya da bu alana sürükleyiniz.</p></span>
+                                                </div>
+                                            </div>
+                                            <br /><br />
+                                            <div style="text-align: center; border: 1px solid #000; padding: 8px; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; width: 600px; margin-left: 280px; background-color: aliceblue ">
+                                                <h3 style="font-style: italic; font-weight: bold">Yüklenen Dosyanız</h3><hr style="border-width:1px" />
+
+                                                <div id="previewFiles" style="margin-top: -35px "></div><hr style="border-width:1px" />
+
+                                                @if (internBookToGive == null)
+                                                {
+                                                    <div style="text-align:center;">
+                                                        <input type="submit" id="Submit" name="Submit" class="btn btn-primary btn-default btn-squared px-30" style="width:100%" value="Kaydet" />
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <br /><br />
+                                    </form>
+                                }
+
+
+                                <h3 style="text-align: center; text-align: center; font-style: italic; font-weight: bold">Kaydedilen Belgeniz</h3>
+                                <hr />
+
+                                @if (User.Identity.IsAuthenticated == true)
+                                {
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr style="font-size:17px">
+                                                <th scope="col" style="font-weight:bold">Dosya Adı</th>
+                                                <th scope="col" style="font-weight:bold">Dosyayı İndir</th>
+                                                <th scope="col" style="font-weight:bold">Dosyayı Sil</th>
+                                                <th scope="col" style="font-weight:bold">Yükleme Tarihi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr tr style="font-size:17px">
+                                                    <td style=""><a href="@Url.Action("InternBookFileShow", "Student", new { dosya = @item.PageName })" target="_blank">@item.PageName</a></td>
+                                                    <td style=""><a href="@Url.Action("InternBookDownload", "Student", new { file = @item.PageName })"><button type="submit" class="btn btn-primary btn-default btn-squared px-30">İndir</button></a></td>
+                                                    @using (Html.BeginForm())
+                                                    {
+                                                        <td style=""><a onclick="InternBookRemove(@item.InternBookToGiveId)"><button type="button" class="btn btn-danger ">Sil</button></a></td>
+                                                    }
+                                                    <td style="">@item.Date</td>
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="~/assets/vendor_assets/js/jquery/jquery-ui.js"></script>
+
+        <script src="~/assets/vendor_assets/js/bootstrap/popper.js"></script>
+
+        <script src="~/assets/vendor_assets/js/bootstrap/bootstrap.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/moment/moment.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/accordion.js"></script>
+
+        <script src="~/assets/vendor_assets/js/autoComplete.js"></script>
+
+        <script src="~/assets/vendor_assets/js/Chart.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/charts.js"></script>
+
+        <script src="~/assets/vendor_assets/js/daterangepicker.js"></script>
+
+        <script src="~/assets/vendor_assets/js/drawer.js"></script>
+
+        <script src="~/assets/vendor_assets/js/dynamicBadge.js"></script>
+
+        <script src="~/assets/vendor_assets/js/dynamicCheckbox.js"></script>
+
+        <script src="~/assets/vendor_assets/js/feather.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/footable.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/fullcalendar@5.2.0.js"></script>
+
+        <script src="~/assets/vendor_assets/js/google-chart.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery-jvectormap-2.0.5.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery-jvectormap-world-mill-en.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.countdown.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.filterizr.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.magnific-popup.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.mCustomScrollbar.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.peity.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.star-rating-svg.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/leaflet.js"></script>
+
+        <script src="~/assets/vendor_assets/js/leaflet.markercluster.js"></script>
+
+        <script src="~/assets/vendor_assets/js/loader.js"></script>
+
+        <script src="~/assets/vendor_assets/js/message.js"></script>
+
+        <script src="~/assets/vendor_assets/js/moment.js"></script>
+
+        <script src="~/assets/vendor_assets/js/muuri.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/notification.js"></script>
+
+        <script src="~/assets/vendor_assets/js/popover.js"></script>
+
+        <script src="~/assets/vendor_assets/js/select2.full.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/slick.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/trumbowyg.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/wickedpicker.min.js"></script>
+
+        <script src="~/assets/theme_assets/js/drag-drop.js"></script>
+
+        <script src="~/assets/theme_assets/js/footable.js"></script>
+
+        <script src="~/assets/theme_assets/js/full-calendar.js"></script>
+
+        <script src="~/assets/theme_assets/js/googlemap-init.js"></script>
+
+        <script src="~/assets/theme_assets/js/icon-loader.js"></script>
+
+        <script src="~/assets/theme_assets/js/jvectormap-init.js"></script>
+
+        <script src="~/assets/theme_assets/js/leaflet-init.js"></script>
+
+        <script src="~/assets/theme_assets/js/main.js"></script>
+
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript">
+            $(window).on("load", function () {
+                $(".loader-wrapper").fadeOut("slow");
+            });
+        </script>
+
+</body>

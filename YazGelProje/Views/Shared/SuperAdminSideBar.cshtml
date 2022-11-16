@@ -1,0 +1,327 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+@{
+    Layout = null;
+}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Paneli</title>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- inject:css-->
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/bootstrap/bootstrap.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/daterangepicker.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/fontawesome.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/footable.standalone.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/fullcalendar@5.2.0.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/jquery-jvectormap-2.0.5.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/jquery.mCustomScrollbar.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/leaflet.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/line-awesome.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/MarkerCluster.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/MarkerCluster.Default.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/select2.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/slick.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/star-rating-svg.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/trumbowyg.min.css">
+
+    <link rel="stylesheet" href="~/assets/vendor_assets/css/wickedpicker.min.css">
+
+    <link rel="stylesheet" href="~/style.css">
+
+    <!-- endinject -->
+</head>
+<body>
+    <!--NAVBAR-->
+    <div class="mobile-search">
+        <form class="search-form">
+            <span data-feather="search"></span>
+            <input class="form-control mr-sm-2 box-shadow-none" type="text" placeholder="Ara...">
+        </form>
+    </div>
+    <div class="mobile-author-actions"></div>
+    <header class="header-top">
+        <nav class="navbar navbar-light">
+            <div class="navbar-left">
+                <a href="" class="sidebar-toggle">
+                    <img class="svg" src="~/img/svg/bars.svg" alt="img">
+                </a>
+                <a class="navbar-brand" href="/SuperAdmin/Home"><img class="dark" src="~/Content/Resimler/kou.png" alt="svg" style="width:50px; height:50px;"></a>
+            </div>
+            <div class="navbar-right">
+                <ul class="navbar-right__menu">
+                    <li class="nav-flag-select">
+                        <div class="dropdown-custom">
+                            <a href="javascript:;" class="nav-item-toggle">
+                                <img src="~/img/tur.png" alt=""
+                                     class="rounded-circle">
+                            </a>
+                            <div class="dropdown-wrapper dropdown-wrapper--small">
+                                <a href=""><img src="~/img/tur.png" alt=""> Turkish</a>
+                                <a href=""><img src="~/img/eng.png" alt=""> English</a>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- ends: .nav-flag-select -->
+                    <li class="nav-author">
+                        <div class="dropdown-custom">
+                            <a href="javascript:;" class="nav-item-toggle">
+                                <img src="~/img/author-nav.jpg" alt=""
+                                     class="rounded-circle">
+                            </a>
+                            <div class="dropdown-wrapper">
+                                <div class="nav-author__info">
+                                    <div class="author-img">
+                                        <img src="~/img/author-nav.jpg" alt="" class="rounded-circle">
+                                    </div>
+                                    <div>
+                                        <h6></h6>
+                                        <span>Unvan</span>
+                                    </div>
+                                </div>
+                                <div class="nav-author__options">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                <span data-feather="user"></span> Profil
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <span data-feather="settings"></span> Ayarlar
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <a href="@Url.Action("SuperAdminLogOut","Login")" class="nav-author__signout">
+                                        <span data-feather="log-out"></span> Çıkış Yap
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- ends: .dropdown-wrapper -->
+                        </div>
+                    </li>
+                    <!-- ends: .nav-author -->
+                </ul>
+                <!-- ends: .navbar-right__menu -->
+                <div class="navbar-right__mobileAction d-md-none">
+                    <a href="#" class="btn-search">
+                        <span data-feather="search"></span>
+                        <span data-feather="x"></span>
+                    </a>
+                    <a href="#" class="btn-author-action">
+                        <span data-feather="more-vertical"></span>
+                    </a>
+                </div>
+            </div>
+            <!-- ends: .navbar-right -->
+        </nav>
+    </header>
+    <!--NAVBAR SON-->
+
+    <main class="main-content">
+
+        <!--SIDEBAR-->
+        <aside class="sidebar-wrapper">
+            <div class="sidebar sidebar-collapse" id="sidebar">
+                <div class="sidebar__menu-group">
+                    <ul class="sidebar_nav">
+                        <li>
+                            <a href="@Url.Action("AdminList","SuperAdmin")" class="">
+                                <span data-feather="user" class="nav-icon"></span>
+                                <span class="menu-text">Adminler</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("InternFileUpload","SuperAdmin")" class="">
+                                <span data-feather="folder" class="nav-icon"></span>
+                                <span class="menu-text">Staj Evrakları</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("TeacherList","SuperAdmin")" class="">
+                                <span data-feather="users" class="nav-icon"></span>
+                                <span class="menu-text">Öğretmenler</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Authority","SuperAdmin")" class="">
+                                <span data-feather="pen-tool" class="nav-icon"></span>
+                                <span class="menu-text">Yetki Ver</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("StudentList","SuperAdmin")" class="">
+                                <span data-feather="users" class="nav-icon"></span>
+                                <span class="menu-text">Öğrenciler</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/SuperAdmin/StudentInfo" class="">
+                                <span data-feather="help-circle" class="nav-icon"></span>
+                                <span class="menu-text">Öğrenci Başvuru Durumu</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/SuperAdmin/InternStartFiles" class="">
+                                <span data-feather="folder" class="nav-icon"></span>
+                                <span class="menu-text">Başvuru Evrakları</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/SuperAdmin/InternBookFiles" class="">
+                                <span data-feather="folder" class="nav-icon"></span>
+                                <span class="menu-text">Staj Defter Evrakları</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        <!--SIDEBAR SON-->
+
+
+        <div class="contents">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 mb-30">
+                        <div class="card mt-30">
+                            <div class="card-body">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- inject:js-->
+
+
+        <script src="~/assets/vendor_assets/js/jquery/jquery-ui.js"></script>
+
+        <script src="~/assets/vendor_assets/js/bootstrap/popper.js"></script>
+
+        <script src="~/assets/vendor_assets/js/bootstrap/bootstrap.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/moment/moment.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/accordion.js"></script>
+
+        <script src="~/assets/vendor_assets/js/autoComplete.js"></script>
+
+        <script src="~/assets/vendor_assets/js/Chart.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/charts.js"></script>
+
+        <script src="~/assets/vendor_assets/js/daterangepicker.js"></script>
+
+        <script src="~/assets/vendor_assets/js/drawer.js"></script>
+
+        <script src="~/assets/vendor_assets/js/dynamicBadge.js"></script>
+
+        <script src="~/assets/vendor_assets/js/dynamicCheckbox.js"></script>
+
+        <script src="~/assets/vendor_assets/js/feather.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/footable.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/fullcalendar@5.2.0.js"></script>
+
+        <script src="~/assets/vendor_assets/js/google-chart.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery-jvectormap-2.0.5.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery-jvectormap-world-mill-en.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.countdown.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.filterizr.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.magnific-popup.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.mCustomScrollbar.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.peity.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/jquery.star-rating-svg.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/leaflet.js"></script>
+
+        <script src="~/assets/vendor_assets/js/leaflet.markercluster.js"></script>
+
+        <script src="~/assets/vendor_assets/js/loader.js"></script>
+
+        <script src="~/assets/vendor_assets/js/message.js"></script>
+
+        <script src="~/assets/vendor_assets/js/moment.js"></script>
+
+        <script src="~/assets/vendor_assets/js/muuri.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/notification.js"></script>
+
+        <script src="~/assets/vendor_assets/js/popover.js"></script>
+
+        <script src="~/assets/vendor_assets/js/select2.full.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/slick.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/trumbowyg.min.js"></script>
+
+        <script src="~/assets/vendor_assets/js/wickedpicker.min.js"></script>
+
+        <script src="~/assets/theme_assets/js/drag-drop.js"></script>
+
+        <script src="~/assets/theme_assets/js/footable.js"></script>
+
+        <script src="~/assets/theme_assets/js/full-calendar.js"></script>
+
+        <script src="~/assets/theme_assets/js/googlemap-init.js"></script>
+
+        <script src="~/assets/theme_assets/js/icon-loader.js"></script>
+
+        <script src="~/assets/theme_assets/js/jvectormap-init.js"></script>
+
+        <script src="~/assets/theme_assets/js/leaflet-init.js"></script>
+
+        <script src="~/assets/theme_assets/js/main.js"></script>
+
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+        <!-- endinject-->
+</body>
+</html>

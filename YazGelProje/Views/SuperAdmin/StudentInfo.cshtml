@@ -1,0 +1,65 @@
+﻿@model  IEnumerable<YazGelProje.Models.Student>
+@{
+    Layout = "~/Views/Shared/SuperAdminSideBar.cshtml";
+}
+
+@using YazGelProje.Models
+
+<div class="userDatatable adv-table-table global-shadow border-0 bg-white w-100 department-table">
+    <div class="table-responsive">
+        <div id="filter-form-container"></div>
+        <table class="table mb-0 table-borderless team-table" data-sorting="true"
+               data-filter-container="#filter-form-container" data-paging-current="1"
+               data-paging-position="right" data-paging-size="10">
+            <thead>
+                <tr class="userDatatable-header">
+                    <th scope="col" style="font-weight:bold">Öğrenci Adı Soyadı</th>
+                    <th scope="col" style="font-weight:bold">Numarası</th>
+                    <th scope="col" style="font-weight:bold">Staj Başvuru Durumu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+
+                    foreach (var item in Model)
+                    {
+                        <tr style="font-size: 17px">
+
+                            <td class="text-capitalize">@item.Name @item.Surname</td>
+                            <td style="">@item.StudentNumber</td>
+
+
+
+                            @if (item.InternCaseId == 5)
+                            {
+                                <td style="font-weight:bold;font-style:italic;color:red">@item.InternCase.Case</td>
+                            }
+                            @if (item.InternCaseId == 3)
+                            {
+                                <td style="font-weight:bold;font-style:italic;color:gold">@item.InternCase.Case</td>
+                            }
+                            @if (item.InternCaseId == 2)
+                            {
+                                <td style="font-weight:bold;font-style:italic;color:blue">@item.InternCase.Case</td>
+                            }
+                            @if (item.InternCaseId == 1)
+                            {
+                                <td style="font-weight:bold;font-style:italic;color:green">@item.InternCase.Case</td>
+                            }
+                            @if (item.InternCaseId == 4)
+                            {
+                                <td style="font-weight:bold;font-style:italic;color:orange">@item.InternCase.Case</td>
+                            }
+                            @if (item.InternCaseId == 6)
+                            {
+                                <td style="font-weight:bold;font-style:italic;color:purple">@item.InternCase.Case</td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>

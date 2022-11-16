@@ -1,0 +1,87 @@
+﻿@model YazGelProje.Models.Student
+@{
+    Layout = "~/Views/Shared/StudentSideBar.cshtml";
+}
+<head>
+
+    <script type="text/javascript" src="~/Content/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript" src="~/Content/jquery.mask.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#phoneNumber').mask("0(999) 999 99 99");
+
+            $('#studentNumber').mask("999999999");
+
+            $('#email').mask("999999999@kocaeli.edu.tr");
+        });
+    </script>
+</head>
+
+
+<br />
+
+    <div class="col-lg-12">
+        <div class="card card-Vertical card-default card-md mb-4">
+            <div class="card-header" style="">
+                <p style="font-size: 20px; text-align: center; align-items: center;"><b>SİSTEM ÜZERİNDE KAYITLI OLAN BİLGİLERİNİZİ BURADAN GÜNCELLEYEBİLİRSİNİZ.</b></p>
+            </div>
+            <div class="card-body pb-md-30">
+                <div class="Vertical-form" style="align-items:center;">
+                    <form method="post" action="/Student/ProfileEdit">
+                        <div style="background-color:green; text-align:center; align-items:center;">
+                            <h3 style="color: white;">@ViewBag.Mesaj</h3>
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">TC No</label><br />
+                            @Html.TextBoxFor(model => model.Tc, new { @type = "text", @Name = "Tc", @id = "formGroupExampleInput2", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "TC No" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Ad</label><br />
+                            @Html.TextBoxFor(model => model.Name, new { @type = "text", @Name = "Name", @id = "Name", @class = "form-control ih-medium ip-gray radius-xs b-light px-15t", placeholder = "Ad" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Soyad</label><br />
+                            @Html.TextBoxFor(model => model.Surname, new { @type = "text", @Name = "Surname", @id = "Surname", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Soyad" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Adres</label><br />
+                            @Html.TextBoxFor(model => model.Adress, new { @type = "text", @Name = "Adress", @id = "Adress", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Adresi" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">E-Posta</label><br />
+                            @Html.TextBoxFor(model => model.Email, new { @type = "text", @Name = "Email", @id = "email", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Emaili" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Parola</label><br />
+                            @Html.TextBoxFor(model => model.Password, new { @type = "text", @Name = "Password", @id = "Password", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Parola" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Öğrenci Numarası</label><br />
+                            @Html.TextBoxFor(model => model.StudentNumber, new { @type = "text", @Name = "StudentNumber", @id = "studentNumber", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Öğrenci No" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Telefon No</label><br />
+                            @Html.TextBoxFor(model => model.PhoneNumber, new { @type = "text", @Name = "PhoneNumber", @id = "phoneNumber", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Tel No" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Sınıf</label><br />
+                            @Html.TextBoxFor(model => model.Class, new { @type = "text", @Name = "Class", @id = "Class", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Sınıf" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Fakülte</label><br />
+                            @Html.TextBoxFor(model => model.Faculty, new { @type = "text", @Name = "Faculty", @id = "Faculty", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Fakülte" })
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-left:15px">Bölüm</label><br />
+                            @Html.TextBoxFor(model => model.Department, new { @type = "text", @Name = "Department", @id = "Department", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Bölümü" })
+                        </div>
+                        <div class="layout-button mt-25">
+                            <button type="submit" class="btn btn-primary btn-default btn-squared px-30" style="width:100%">Bilgilerimi Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

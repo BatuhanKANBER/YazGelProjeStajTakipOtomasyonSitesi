@@ -1,0 +1,98 @@
+﻿@model YazGelProje.Models.Teacher
+@{
+    Layout = "~/Views/Shared/SuperAdminSideBar.cshtml";
+}
+<head>
+    <script type="text/javascript" src="~/Content/jquery-3.1.1.min.js"></script>
+
+    <script type="text/javascript" src="~/Content/jquery.mask.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#sicilno').mask("9999");
+        });
+    </script>
+
+</head>
+@using (Html.BeginForm("TeacherEdit", "SuperAdmin", FormMethod.Post))
+{
+    <div class="col-lg-12">
+        <div class="card card-horizontal card-default card-md mb-4">
+            <div class="card-header">
+                <h3><b>ÖĞRETMEN GÜNCELLE</b></h3>
+            </div>
+            <div class="card-body py-md-30">
+                <div class="horizontal-form">
+                    <form action="#">
+                        <div class="form-group row mb-25">
+                            <div class="col-sm-3 d-flex aling-items-center">
+                                <label for="inputNameIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">Adı</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="with-icon">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "inputNameIcon", placeholder = "Adı" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-25">
+                            <div class="col-sm-3 d-flex aling-items-center">
+                                <label for="inputEmailIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">
+                                    Soyadı
+                                </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="with-icon">
+                                    @Html.EditorFor(model => model.SurName, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "inputEmailIcon", placeholder = "Soyadı" } })
+                                    @Html.ValidationMessageFor(model => model.SurName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-25">
+                            <div class="col-sm-3 d-flex aling-items-center">
+                                <label for="inputEmailIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">
+                                    Sicil No
+                                </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="with-icon">
+                                    @Html.EditorFor(model => model.SicilNo, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "sicilno", placeholder = "Sicil No" } })
+                                    @Html.ValidationMessageFor(model => model.SicilNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-25">
+                            <div class="col-sm-3 d-flex aling-items-center">
+                                <label for="inputEmailIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">
+                                    Email
+                                    Adresi
+                                </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="with-icon">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "inputEmailIcon", placeholder = "example@kou.edu.tr" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-0">
+                            <div class="col-sm-3">
+                                <label for="inputPasswordIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">Password</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="with-icon">
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "inputPasswordIcon", placeholder = "Parola" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layout-button mt-25">
+                            <input type="submit" value="Güncelle" class="btn btn-primary btn-default btn-squared px-30" style="width:100%"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

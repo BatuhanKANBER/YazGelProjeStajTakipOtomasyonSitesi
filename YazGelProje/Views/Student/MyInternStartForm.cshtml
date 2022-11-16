@@ -1,0 +1,65 @@
+﻿@model IEnumerable<YazGelProje.Models.InternStudentStart>
+@{
+    Layout = "~/Views/Shared/StudentSideBar.cshtml";
+}
+
+<br />
+
+<script>
+    function InternStartFormRemove(id) {
+
+        if (confirm('Başvuru Formu Silinsin Mi?')) {
+            var model = {
+                "id": id
+            };
+
+            $.ajax({
+                url: '/Student/InternStartFormRemove',
+                type: "POST",
+                data: model,
+                success: function (result) {
+                    alert("Başvuru Formu Başarıyla Silidi")
+                    location.reload();
+                }
+            });
+
+        }
+    }
+</script>
+
+<p style="font-weight: bold;text-align:center;color:red ; font-size:19px">@ViewBag.Mesaj</p>
+
+<p style="font-weight: bold;text-align: center; color: green; font-size: 19px">@ViewBag.Mesaj1</p>
+
+@foreach (var item in Model)
+{
+    <div style="border: 1px solid ; padding: 8px; width: 390px; height: auto; margin-left: 390px ">
+        <a style="text-align: center;font-weight:bold;color:black">Ad Soyad :</a> <a style="color:black">@item.Student.Name @item.Student.Surname</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">TC Kimlik No : </a> <a style="color:black">@item.Student.StudentNumber</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">Adresiniz : </a> <a style="color:black">@item.Student.Adress</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">İş Yeri Adı : </a> <a style="color:black">@item.WorkPlaceName</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">İş Yeri Adresi : </a> <a style="color:black">@item.WorkPlaceAdress</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">Staj Başlangıç Tarihi : </a> <a style="color:black">@item.InternStart.ToString().TrimEnd('0', ':')</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">Staj Bitiş Tarihi : </a> <a style="color:black">@item.InternEnd.ToString().TrimEnd('0', ':')</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">Cumartesi Çalışıyormusunuz? : </a> <a style="color:black">@item.SaturdayWork</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">Staj Süresince Denk Gelen Günlerinizin Sayısı : </a> <a style="color:black">@item.WeekDayCount</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">Staj Süresince Denk Gelen Resmi Tatil Sayısı : </a> <a style="color:black">@item.HolidayCount</a><br />
+
+        <a style="text-align: center; font-weight: bold; color: black ">Toplam Çalışma Gününüz : </a> <a style="color:black">@item.WorkTime</a> <br /><br />
+
+        @if (item.Student.InternCaseId != 1)
+        {
+            <a href="/Kullanici/StajBaslangicFormunuGuncelle" style="margin-left:40px"><button type="submit" class="btn btn-info">Bilgilerimi Güncelle</button></a>
+            <a style="margin-left:40px" onclick="InternStartFormRemove(@item.InternStudentStartId)"><button type="submit" class="btn btn-danger">Bilgilerimi Sil</button></a> <br /><br />
+        }
+    </div>
+}

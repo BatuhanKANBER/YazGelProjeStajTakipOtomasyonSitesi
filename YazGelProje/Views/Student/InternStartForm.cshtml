@@ -1,0 +1,52 @@
+﻿@model YazGelProje.Models.Student
+@{
+    Layout = "~/Views/Shared/StudentSideBar.cshtml";
+}
+
+<div style="border: 1px solid #000; padding: 8px; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; width:378px; margin-left:390px">
+
+    <div style="margin-top: 10px">
+        <a style="font-weight:bold;color:green;text-align:center;color:green;text-align:center;font-weight:bold">@ViewBag.Mesaj</a><br /><br />
+    </div>
+
+    <div style="margin-top:-45px">
+
+        <a style="font-weight: bold; color: green; text-align: center; color: black"></a>@ViewBag.Mesaj1<br />
+
+        <a style="text-align: center; font-weight: bold; color: black">Ad Soyad : <a style="color:green"></a></a>@Model.Name @Model.Surname<br />
+
+        <a style="text-align: center; font-weight: bold; color: black">TC Kimlik No : <a style=" color: green"></a></a>@Model.StudentNumber<br />
+
+        <a style="text-align: justify; font-weight: bold; color: black">Adres : <a style="color: green"></a></a>@Model.Adress<br />
+    </div>
+
+
+    <form method="post" action="/Student/InternStartForm">
+
+        <p style="text-align:center;font-weight:bold;color:black"><u>İş Yeri Adı </u></p> <textarea type="text" rows="2" name="workName" id="workName" required="" style=" width: 300px; margin-left: 35px"> </textarea>
+
+        <p style="text-align:center;font-weight:bold;color:black"><u>İş Yeri Adresi </u></p> <textarea type="text" rows="2" name="workAdress" id="workAdress" required="" style=" width: 300px; margin-left: 35px"> </textarea>
+
+        <p style="text-align: center; font-weight: bold; color: black"><u>Staj Başlangıç Tarihi </u> </p> <input type="date" name="startDate" id="startDate" required="" style=" width: 150px; text-align: center; margin-left: 105px " />
+
+        <p style="text-align: center; margin-top: 10px; font-weight: bold; color: black"><u>Staj Bitiş Tarihi  </u></p> <input type="date" name="endDate" id="endDate" required="" style=" width: 150px; text-align: center; margin-left: 105px " />
+
+        <p style="text-align: center; margin-top: 10px; font-weight: bold; color: black"><u>Cumartesi Çalışıyormusunuz? (Evet/Hayır) </u></p>
+
+        <select name="saturdayWork" id="saturdayWork" required="" style="width: 150px; text-align: center; margin-left: 105px; font-weight: bold; color: black ">
+            <option>Seçiniz</option>
+            <option>Evet</option>
+            <option>Hayır</option>
+        </select>
+
+        <br />
+        <br />
+        @if (Model.InternCaseId != 1)
+        {
+            <button type="submit" class="btn btn-success" style="margin-left:139px">Kaydet</button>
+        }
+    </form>
+</div>
+
+<br />
+

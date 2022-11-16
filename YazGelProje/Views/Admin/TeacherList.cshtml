@@ -1,0 +1,95 @@
+﻿@{
+    Layout = "~/Views/Shared/AdminSideBar.cshtml";
+}
+@model IEnumerable<YazGelProje.Models.Teacher>
+<a href="@Url.Action("TeacherAdd","Admin")" class="btn px-15 btn-primary">
+    <i class="las la-plus fs-16"></i>Yeni Öğretmen Ekle
+</a>
+
+<div class="userDatatable adv-table-table global-shadow border-0 bg-white w-100 department-table">
+    <div class="table-responsive">
+        <div id="filter-form-container"></div>
+        <table class="table mb-0 table-borderless team-table" data-sorting="true"
+               data-filter-container="#filter-form-container" data-paging-current="1"
+               data-paging-position="right" data-paging-size="10">
+            <thead>
+                <tr class="userDatatable-header">
+                    <th>
+                        <span class="userDatatable-title">TeacherId</span>
+                    </th>
+                    <th>
+                        <span class="userDatatable-title">Adı</span>
+                    </th>
+                    <th>
+                        <span class="userDatatable-title float-right">Soyadı</span>
+                    </th>
+                    <th>
+                        <span class="userDatatable-title float-right">Sicil No</span>
+                    </th>
+                    <th>
+                        <span class="userDatatable-title float-right">Email</span>
+                    </th>
+                    <th>
+                        <span class="userDatatable-title float-right">Action</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    foreach (var teacher in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="userDatatable-content" style="align-items:center">
+                                    @teacher.TeacherId
+                                </div>
+                            </td>
+                            <td>
+                                <div class="userDatatable-content">
+                                    @teacher.Name
+                                </div>
+                            </td>
+                            <td>
+                                <div class="userDatatable-content">
+                                    @teacher.SurName
+                                </div>
+                            </td>
+                            <td>
+                                <div class="userDatatable-content">
+                                    @teacher.SicilNo
+                                </div>
+                            </td>
+                            <td>
+                                <div class="userDatatable-content">
+                                    @teacher.Password
+                                </div>
+                            </td>
+                            <td>
+                                <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+                                    <li>
+                                        <a href="@Url.Action("TeacherEdit","Admin", new {  id=teacher.TeacherId  })" class="edit">
+                                            <span data-feather="edit"></span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("TeacherRemove","Admin", new {  id=teacher.TeacherId })" class="remove">
+                                            <span data-feather="trash-2"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<YazGelProje.Models.Teacher>
+@{
+    Layout = "~/Views/Shared/SuperAdminSideBar.cshtml";
+}
+<script src="~/assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>
+<div class="userDatatable adv-table-table global-shadow border-0 bg-white w-100 department-table">
+    <div class="table-responsive">
+        <div id="filter-form-container"></div>
+        <table class="table mb-0 table-borderless team-table" data-sorting="true"
+               data-filter-container="#filter-form-container" data-paging-current="1"
+               data-paging-position="right" data-paging-size="10">
+            <thead>
+                <tr class="userDatatable-header">
+                    <th>Adı</th>
+                    <th>Soyadı</th>
+                    <th>Email</th>
+                    <th>Sicil No</th>
+                    <th>Yetkisi</th>
+                    <th>Yetki Belirle</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="">@item.Name</td>
+                        <td style="">@item.SurName</td>
+                        <td style="">@item.Email</td>
+                        <td style="">@item.SicilNo</td>
+                        @if (item.Commission.Title == "Öğretmen")
+                        {
+                            <td style=" font-weight: bold ; color: blue">Öğretmen</td>
+                        }
+                        @if (item.Commission.Title == "Komisyon")
+                        {
+                            <td style="font-weight: bold"> @item.Commission.Title </td>
+                        }
+
+                        <td><a href="@Url.Action("SetAuthority", "SuperAdmin", new { id = @item.TeacherId })" class="btn px-15 btn-primary">Yetki Belirle</a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

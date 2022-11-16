@@ -1,0 +1,99 @@
+﻿@model IEnumerable<YazGelProje.Models.FileModel>
+@{
+    Layout = "~/Views/Shared/SuperAdminSideBar.cshtml";
+}
+
+@using (Html.BeginForm("InternFileUpload", "SuperAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="display:flex;">
+        <input type="file" name="postedFile" />
+        <input type="submit" id="btnUpload" value="Upload" class="btn px-15 btn-primary" / />
+    </div>
+
+}
+@using (Html.BeginForm("DownloadFile", "SuperAdmin", FormMethod.Post))
+{
+    <input type="hidden" id="hfFileId" name="FileId" />
+    <input type="submit" id="btnDownload" value="Download" style="display:none">
+}
+<hr />
+<div class="userDatatable adv-table-table global-shadow border-0 bg-white w-100 department-table">
+    <div class="table-responsive">
+        <div id="filter-form-container"></div>
+        <table class="table mb-0 table-borderless team-table" data-sorting="true"
+               data-filter-container="#filter-form-container" data-paging-current="1"
+               data-paging-position="right" data-paging-size="10">
+            <thead>
+                <tr class="userDatatable-header">
+                    <th style="width:50px">Dosya Id</th>
+                    <th style="width:120px">Dosya Adı</th>
+                    <th style="width:80px">İndir</th>
+                    <th style="width:80px">Action</th>
+
+                </tr>
+            </thead>
+
+            @if (Model.Count() > 0)
+            {
+                foreach (var file in Model)
+                {
+                    <tr>
+                        <td>@file.Id</td>
+                        <td>@file.Name</td>
+                        <td><a href="javascript:;" onclick="DownloadFile(@file.Id)">Download</a></td>
+                        <td>
+                            <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+                                <li>
+                                    <a href="@Url.Action("InternFileEdit","SuperAdmin", new {  id=file.Id })" class="edit">
+                                        <span data-feather="edit"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("InternFileRemove","SuperAdmin", new {  id=file.Id })" class="remove">
+                                        <span data-feather="trash-2"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    function DownloadFile(fileId) {
+        $("#hfFileId").val(fileId);
+        $("#btnDownload")[0].click();
+    };
+</script>
+<script>
+    function InternFileRemove(id) {
+
+        if (confirm('Dosya Silinsin Mi?')) {
+            var model = {
+                "id": id
+            };
+
+            $.ajax({
+                url: '/Student/InternFileRemove',
+                type: "POST",
+                data: model,
+                success: function (result) {
+                    alert("Dosya Başarıyla Silidi")
+                    location.reload();
+                }
+            });
+
+        }
+    }
+</script>
+<script src="~/assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>

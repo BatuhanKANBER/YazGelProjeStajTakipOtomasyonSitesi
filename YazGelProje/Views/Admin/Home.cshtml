@@ -1,0 +1,22 @@
+﻿@model YazGelProje.Models.SemesterStart
+@{
+    Layout = "~/Views/Shared/AdminSideBar.cshtml";
+}
+<h2 style="text-align:center">Staj Dönemini Başlat-Durdur</h2>
+<hr />
+<p style="text-align:center"><b>STAJ DÖNEMİNİ BAŞLATMAK VEYA KAPATMAK İÇİN SEÇİLİ LİSTEYİ KULLANINIZ.</b></p>
+<form method="post" action="/Admin/Home">
+    <select class="form-control  form-control-lg" name="SemesterStart" id="SemesterStart">
+        <option style="font-size: 25px; width: 360px; font-weight: bold; text-align:center;margin-left:300px">Seçiniz</option>
+        <option style="font-size: 25px; width: 360px; font-weight: bold; text-align:center;margin-left:300px">Açık</option>
+        <option style="font-size: 25px; width: 360px; font-weight: bold; text-align:center;margin-left:300px">Kapalı</option>
+    </select>
+    <br />
+    <br />
+    <h1 style="font-weight: bold; text-align: center; background-color: #5F63F2; color: white ">@ViewBag.Mesaj</h1>
+    <br />
+    <br />
+    <a><button type='submit' class='btn btn-primary btn-default btn-squared btn-lg btn-block'>Onayla</button></a>
+    <br />
+</form>
+<script src="~/assets/vendor_assets/js/jquery/jquery-3.5.1.min.js"></script>
