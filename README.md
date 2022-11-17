@@ -1,5 +1,5 @@
 # YazGelProje
 Batuhan KANBER
 Berkan NALBANT
-Mehhmet Berk BAYTÜRK
+Mehmet Berk BAYTÜRK
 Selim Metehan AKTAŞ
