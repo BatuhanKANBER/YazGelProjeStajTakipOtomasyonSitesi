@@ -74,7 +74,7 @@
                 var context = new MyContext();
                 string userIdentityName = User.Identity.Name;
                 string internCase = context.Students.Where(x => x.StudentNumber == userIdentityName).Select(x => x.InternCase.Case).FirstOrDefault();
-                <h2 style="font-weight:bold;font-style:italic;color:royalblue">Staj Durumunuz: @internCase</h2>
+                <h2 style="font-weight:bold;font-style:italic;color:#20C997">Staj Durumunuz: @internCase</h2>
             }
             <div class="navbar-right">
                 <ul class="navbar-right__menu">
@@ -119,6 +119,11 @@
                                                 <span data-feather="user"></span> Profil
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="@Url.Action("ConfirmPassword","Student")">
+                                                <span data-feather="key"></span> Parola Değiştir
+                                            </a>
+                                        </li>
                                     </ul>
                                     <a href="@Url.Action("StudentLogout","Login")" class="nav-author__signout">
                                         <span data-feather="log-out"></span> Çıkış Yap
@@ -152,18 +157,33 @@
             <div class="sidebar sidebar-collapse" id="sidebar">
                 <div class="sidebar__menu-group">
                     <ul class="sidebar_nav">
-                        <li>
-                            <a href="@Url.Action("FileUpload","Student")" class="">
-                                <span data-feather="file-plus" class="nav-icon"></span>
-                                <span class="menu-text">Staj Kabul Formu Yükle</span>
-                            </a>
-                        </li>
-                        @if(internCase== "Staj Başvurusu Onaylandı")
+                        @if (internCase == "Reddedildi" || internCase == "Beklemede(Başvuru Onay Bekliyor)" || internCase == "Başvuru Yapılmadı")
                         {
+                            <li>
+                                <a href="@Url.Action("FileUpload","Student")" class="">
+                                    <span data-feather="file-plus" class="nav-icon"></span>
+                                    <span class="menu-text">Staj Kabul Formu Yükle</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="@Url.Action("FileUpload","Student")" class="">
+                                    <span data-feather="file-plus" class="nav-icon"></span>
+                                    <span class="menu-text">Staj Kabul Formu Yükle</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="@Url.Action("InternBookUpload","Student")" class="">
                                     <span data-feather="file-plus" class="nav-icon"></span>
                                     <span class="menu-text">Staj Defteri Yükle</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("FormUpload","Student")" class="">
+                                    <span data-feather="file-plus" class="nav-icon"></span>
+                                    <span class="menu-text">Staj Değerlendirme Formu Yükle</span>
                                 </a>
                             </li>
                         }
@@ -187,25 +207,24 @@
                                     <h1 class="text-uppercase">HOŞGELDİN, @name @surname</h1>
                                 }
                                 <hr />
-                                <h3 style="color:royalblue;">STAJ EVRAKLARI</h3>
+                                <div style="justify-content:center; align-items:center; text-align:center;">
+                                    <h3 style="color:#20C997;">STAJ İÇİN GEREKLİ ADIMLAR</h3>
+                                </div>
+                                <br />
                                 <br />
                                 @using (Html.BeginForm("DownloadFile", "Admin", FormMethod.Post))
                                 {
                                     <input type="hidden" id="hfFileId" name="FileId" />
                                     <input type="submit" id="btnDownload" value="Download" style="display:none" />
                                 }
-                                <table cellpadding="0" cellspacing="0" width="%100">
-                                    <tr>
-                                        <th style="width:120px">Dosya Adı</th>
-                                        <th style="width:80px">İndir</th>
-                                    </tr>
+                                <table class="table table-dark table-hover" width="100%">
                                     @if (Model.Count() > 0)
                                     {
                                         foreach (var file in Model)
                                         {
                                             <tr>
                                                 <td>@file.Name</td>
-                                                <td><a href="javascript:;" onclick="DownloadFile(@file.Id)">Download</a></td>
+                                                <td><a style="color:#20C997" href="javascript:;" onclick="DownloadFile(@file.Id)">Download</a></td>
                                             </tr>
                                         }
                                     }

@@ -7,7 +7,7 @@
 {
     <div style="display:flex;">
         <input type="file" name="postedFile" />
-        <input type="submit" id="btnUpload" value="Upload" class="btn px-15 btn-primary" / />
+        <input type="submit" id="btnUpload" value="Upload" class="btn px-15 btn-success" / />
     </div>
 
 }
@@ -40,7 +40,7 @@
                     <tr>
                         <td>@file.Id</td>
                         <td>@file.Name</td>
-                        <td><a href="javascript:;" onclick="DownloadFile(@file.Id)">Download</a></td>
+                        <td><a style="color:#20C997" href="javascript:;" onclick="DownloadFile(@file.Id)">Download</a></td>
                         <td>
                             <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
                                 <li>

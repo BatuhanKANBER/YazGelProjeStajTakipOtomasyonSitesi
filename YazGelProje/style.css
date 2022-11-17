@@ -2875,19 +2875,19 @@ table.fc-scrollgrid thead .fc-scroller-harness .card.fc-scroller .card-body, .sl
 }
 
 .b-light, .new-member-modal button.b-light, .new-member-modal button.btn-outline-lighten, .btn-outline-lighten {
-  border: 1px solid #e3e6ef;
+    border: 1px solid #20C997;
 }
 
 .b-deep {
-  border: 1px solid #c6d0dc;
+    border: 1px solid #20C997;
 }
 
 .shadow1 {
-  box-shadow: 0px 5px 10px rgba(146, 153, 184, 0.1019607843);
+    box-shadow: 0px 5px 10px #20C997;
 }
 
 .shadow2 {
-  box-shadow: 0px 3px 5px rgba(146, 153, 184, 0.0509803922);
+    box-shadow: 0px 3px 5px #20C997;
 }
 
 .radius-xl {
@@ -4411,11 +4411,11 @@ ul {
 .navbar-right__menu .nav-author__options ul li a svg {
   width: 16px;
 }
-.navbar-right__menu .nav-author__options ul li a:hover {
-  background: rgba(95, 99, 242, 0.05);
-  padding-left: 35px;
-  color: #5f63f2;
-}
+    .navbar-right__menu .nav-author__options ul li a:hover {
+        background: rgba(95, 99, 242, 0.05);
+        padding-left: 35px;
+        color: #20C997;
+    }
 
 .navbar-right__menu .search-toggle.active i.la-times {
   display: block;
@@ -5259,7 +5259,7 @@ ul {
 .sidebar-toggle:hover svg #Path_1,
 .sidebar-toggle:hover svg #Path_2,
 .sidebar-toggle:hover svg #Path_3 {
-  fill: #5f63f2;
+  fill: #20C997;
 }
 
 .layout-dark .sidebar .sidebar__menu-group ul li.menu-title span {

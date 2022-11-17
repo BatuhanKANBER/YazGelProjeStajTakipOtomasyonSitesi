@@ -34,10 +34,6 @@
                             <h3 style="color: white;">@ViewBag.Mesaj</h3>
                         </div>
                         <div class="form-group">
-                            <label style="margin-left:15px">TC No</label><br />
-                            @Html.TextBoxFor(model => model.Tc, new { @type = "text", @Name = "Tc", @id = "formGroupExampleInput2", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "TC No" })
-                        </div>
-                        <div class="form-group">
                             <label style="margin-left:15px">Ad</label><br />
                             @Html.TextBoxFor(model => model.Name, new { @type = "text", @Name = "Name", @id = "Name", @class = "form-control ih-medium ip-gray radius-xs b-light px-15t", placeholder = "Ad" })
                         </div>
@@ -50,35 +46,11 @@
                             @Html.TextBoxFor(model => model.Adress, new { @type = "text", @Name = "Adress", @id = "Adress", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Adresi" })
                         </div>
                         <div class="form-group">
-                            <label style="margin-left:15px">E-Posta</label><br />
-                            @Html.TextBoxFor(model => model.Email, new { @type = "text", @Name = "Email", @id = "email", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Emaili" })
-                        </div>
-                        <div class="form-group">
-                            <label style="margin-left:15px">Parola</label><br />
-                            @Html.TextBoxFor(model => model.Password, new { @type = "text", @Name = "Password", @id = "Password", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Parola" })
-                        </div>
-                        <div class="form-group">
-                            <label style="margin-left:15px">Öğrenci Numarası</label><br />
-                            @Html.TextBoxFor(model => model.StudentNumber, new { @type = "text", @Name = "StudentNumber", @id = "studentNumber", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Öğrenci No" })
-                        </div>
-                        <div class="form-group">
                             <label style="margin-left:15px">Telefon No</label><br />
                             @Html.TextBoxFor(model => model.PhoneNumber, new { @type = "text", @Name = "PhoneNumber", @id = "phoneNumber", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Tel No" })
                         </div>
-                        <div class="form-group">
-                            <label style="margin-left:15px">Sınıf</label><br />
-                            @Html.TextBoxFor(model => model.Class, new { @type = "text", @Name = "Class", @id = "Class", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Sınıf" })
-                        </div>
-                        <div class="form-group">
-                            <label style="margin-left:15px">Fakülte</label><br />
-                            @Html.TextBoxFor(model => model.Faculty, new { @type = "text", @Name = "Faculty", @id = "Faculty", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Fakülte" })
-                        </div>
-                        <div class="form-group">
-                            <label style="margin-left:15px">Bölüm</label><br />
-                            @Html.TextBoxFor(model => model.Department, new { @type = "text", @Name = "Department", @id = "Department", @class = "form-control ih-medium ip-gray radius-xs b-light px-15", placeholder = "Bölümü" })
-                        </div>
                         <div class="layout-button mt-25">
-                            <button type="submit" class="btn btn-primary btn-default btn-squared px-30" style="width:100%">Bilgilerimi Güncelle</button>
+                            <button type="submit" class="btn btn-success btn-default btn-squared px-30" style="width:100%">Bilgilerimi Güncelle</button>
                         </div>
                     </form>
                 </div>

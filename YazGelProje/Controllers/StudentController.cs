@@ -72,6 +72,7 @@ namespace YazGelProje.Controllers
             }
             return files;
         }
+        SqlCommand komut;
 
         [HttpGet]
         [ActionName("ProfileEdit")]
@@ -88,32 +89,27 @@ namespace YazGelProje.Controllers
 
         [HttpPost]
         [ActionName("ProfileEdit")]
-        public ActionResult ProfileEdit(string tc,string name, string surname, string adress, string email, string studentnumber, string phonenumber, string classs, string password,string faculty, string department)
+        public ActionResult ProfileEdit(string tc,string name, string surname, string adress, string phonenumber)
         {
             var context = new MyContext();
-            string studentNumber = User.Identity.Name;
-            int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
-            var data = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
-            Student student = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
 
-            student.Tc = tc;
-            student.Name = name;
-            student.Surname = surname;
-            student.StudentNumber = studentnumber;
-            student.Email = email;
-            student.PhoneNumber = phonenumber;
-            student.Adress = adress;
-            student.Password = password;
-            student.Faculty = faculty;
-            student.Department = department;
-            student.Class = classs;
+                string studentNumber = User.Identity.Name;
+                int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
+                var data = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+                Student student = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
 
-            context.Entry(student).State = System.Data.Entity.EntityState.Modified;
-            context.SaveChanges();
+                student.Name = name;
+                student.Surname = surname;
+                student.PhoneNumber = phonenumber;
+                student.Adress = adress;
 
-            ViewBag.Mesaj = "Bilgileriniz güncellendi";
+                context.Entry(student).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
 
-            return View(data);
+                ViewBag.Mesaj = "Bilgileriniz güncellendi";
+
+                return View(data);
+
         }
 
         [HttpGet]
@@ -232,17 +228,6 @@ namespace YazGelProje.Controllers
             context.SaveChanges();
         }
 
-        public ActionResult InternBook()
-        {
-            var context = new MyContext();
-            string studentNumber = User.Identity.Name;
-            int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
-
-            var data = context.Interns.Where(x => x.StudentId == studentId && x.Student.InternCaseId == 1).OrderBy(x => x.InternDate).ToList();
-            ViewBag.data = data.Count();
-
-            return View(data);
-        }
 
         [HttpGet]
         [ActionName("InternBookUpload")]
@@ -293,7 +278,7 @@ namespace YazGelProje.Controllers
                         toGive.PageName = fileName1;
                         toGive.StudentId = studentId;
                         toGive.Date = DateTime.Now;
-
+                        student.InternCaseId = 6;
                         context.InternBookToGives.Add(toGive);
                         context.SaveChanges();
                     }
@@ -334,296 +319,198 @@ namespace YazGelProje.Controllers
                     System.IO.File.Delete(Server.MapPath("~/InternBooks/Books/" + bookName));
                 }
             }
+            string number = User.Identity.Name;
+            int studentId = context.Students.Where(x => x.StudentNumber == number).Select(x => x.StudentId).FirstOrDefault();
+            Student kl = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+            kl.InternCaseId = 4;
             context.InternBookToGives.Remove(data);
             context.Entry(data).State = System.Data.Entity.EntityState.Deleted;
             context.SaveChanges();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //[HttpGet]
-        //[ActionName("InternBookUpload")]
-        //public ActionResult InternBookUpload()
-        //{
-        //    var context = new MyContext();
-        //    string studentNumber = User.Identity.Name;
-        //    int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
-        //    var list = context.InternBookToGives.Where(x => x.StudentId == studentId).ToList();
-
-        //    return View(list);
-        //}
-
-        //[HttpPost]
-        //[ActionName("InternBookUpload")]
-        //public ActionResult InternBookUpload(IEnumerable<HttpPostedFileBase> files, InternBookToGive toGive)
-        //{
-        //    var context = new MyContext();
-        //    string studentNumber = User.Identity.Name;
-        //    int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
-        //    var list = context.InternBookToGives.Where(x => x.StudentId == studentId).ToList();
-        //    Student student = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
-
-        //    string gd = Guid.NewGuid().ToString().Substring(0, 8);
-        //    string fName = "";
-
-        //    if (files != null)
-        //    {
-        //        foreach (var file in files)
-        //        {
-        //            fName = file.FileName;
-        //            if (file != null && file.ContentLength > 0)
-        //            {
-        //                var originalDirectory = new DirectoryInfo(string.Format("{0}InternBooks\\", Server.MapPath(@"\")));
-
-        //                string pathString = Path.Combine(originalDirectory.ToString(), "Books");
-
-        //                var fileName1 = gd + "_" + Path.GetFileName(file.FileName);
-
-        //                bool isExists = Directory.Exists(pathString);
-
-        //                if (!isExists)
-        //                    System.IO.Directory.CreateDirectory(pathString);
-
-        //                var path = string.Format("{0}\\{1}", pathString, fileName1);
-        //                file.SaveAs(path);
-
-        //                toGive.PageName = fileName1;
-        //                toGive.StudentId = studentId;
-        //                toGive.Date = DateTime.Now;
-
-        //                context.InternBookToGives.Add(toGive);
-        //                context.SaveChanges();
-        //            }
-        //        }
-        //    }
-        //    return View(list);
-        //}
-
-        //public FileResult InternBookDownload(string file)
-        //{
-        //    byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath("~/InternBooks/Books/" + file + ""));
-        //    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file);
-        //}
-
-        //public ActionResult InternBookFileShow(string dosya)
-        //{
-        //    FileInfo file = new FileInfo(Server.MapPath("~/InternBooks/Books/" + dosya + ""));
-
-        //    if (file.Exists)
-        //    {
-        //        Response.ContentType = "application/pdf";
-        //        Response.Clear();
-        //        Response.TransmitFile(file.FullName);
-        //        Response.End();
-        //    }
-        //    return View();
-        //}
-
-        //public void InternBookRemove(int id)
-        //{
-        //    var context = new MyContext();
-        //    var data = context.InternBookToGives.Where(m => m.InternBookToGiveId == id).FirstOrDefault();
-        //    var bookName = context.InternBookToGives.Where(m => m.InternBookToGiveId == id).Select(x => x.PageName).FirstOrDefault();
-        //    if (bookName != null)
-        //    {
-        //        if (System.IO.File.Exists(Server.MapPath("~/InternBooks/Books/" + bookName)))
-        //        {
-        //            System.IO.File.Delete(Server.MapPath("~/InternBooks/Books/" + bookName));
-        //        }
-        //    }
-        //    context.InternBookToGives.Remove(data);
-        //    context.Entry(data).State = System.Data.Entity.EntityState.Deleted;
-        //    context.SaveChanges();
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public static int WorkingCalculation(DateTime startDate, DateTime endDate)
-        {
-            DateTime date = startDate;
-            int dayCount = 0;
-            string gun = string.Empty;
-            while (date <= endDate)
-            {
-                gun = date.ToString("dddd");
-                if (gun != "Cumartesi" && gun != "Pazar")
-                {
-                    dayCount++;
-                }
-                date = date.AddDays(1);
-            }
-            return dayCount;
-        }
-
-        public static int WorkingCalculation1(DateTime startDate, DateTime endDate)
-        {
-            DateTime date = startDate;
-            int dayCount = 0;
-            string gun = string.Empty;
-            while (date <= endDate)
-            {
-                gun = date.ToString("dddd");
-                if (gun != "Cumartesi" && gun != "Pazar")
-                {
-                    dayCount++;
-                }
-                date = date.AddDays(1);
-            }
-            return dayCount;
-        }
-
         [HttpGet]
-        [ActionName("InternStartForm")]
-        public ActionResult InternStartForm()
+        [ActionName("PasswordEdit")]
+        public ActionResult PasswordEdit()
         {
             var context = new MyContext();
             string studentNumber = User.Identity.Name;
             int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
-            var list = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+
+            var data = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+
+            return View(data);
+        }
+
+        [HttpPost]
+        [ActionName("PasswordEdit")]
+        public ActionResult PasswordEdit(string password, string confirmPassword)
+        {
+            var context = new MyContext();
+            string studentNumber = User.Identity.Name;
+            int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
+            var data = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+            Student student = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+
+            student.Password = password;
+
+            if (confirmPassword==password)
+            {
+                context.Entry(student).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+
+                ViewBag.Mesaj = "Parolanız güncellendi";
+
+                return View(data);
+            }
+            else
+            {
+                ViewBag.Hata = "Parola uyumlu değil.";
+                return View();
+            }
+
+        }
+
+        [HttpGet]
+        [ActionName("ConfirmPassword")]
+        public ActionResult ConfirmPassword()
+        {
+            var context = new MyContext();
+            string studentNumber = User.Identity.Name;
+            int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
+
+            var data = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+
+            return View(data);
+        }
+
+        [HttpPost]
+        [ActionName("ConfirmPassword")]
+        public ActionResult ConfirmPassword(string password)
+        {
+            var context = new MyContext();
+            string studentNumber = User.Identity.Name;
+            int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
+            var studentPassword = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+
+            if (password==studentPassword.Password)
+            {
+                return RedirectToAction("PasswordEdit", "Student");
+            }
+            else
+            {
+                ViewBag.Mesaj = "Hatalı Parola";
+                return View();
+            }
+        }
+
+        [HttpGet]
+        [ActionName("FormUpload")]
+        public ActionResult FormUpload()
+        {
+            var context = new MyContext();
+            string number = User.Identity.Name;
+            int studentId = context.Students.Where(x => x.StudentNumber == number).Select(x => x.StudentId).FirstOrDefault();
+            var list = context.InternForms.Where(x => x.StudentId == studentId).OrderByDescending(x => x.FileDate).Take(5);
+            Student kl = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+
+            if (list.Count() == 0)
+            {
+                kl.InternCaseId = 5;
+                context.Entry(kl).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+                return View(list);
+            }
 
             return View(list);
         }
 
         [HttpPost]
-        [ActionName("InternStartForm")]
-        public ActionResult InternStartForm(string workAdress, string workName, DateTime? startDate, DateTime? endDate, string saturdayWork, InternStudentStart internstdstart)
+        [ActionName("FormUpload")]
+        public ActionResult FormUpload(IEnumerable<HttpPostedFileBase> files, InternForm sb)
         {
-            var context =new MyContext();
-            var holiday = context.Holidays.Select(x => x.HolidayDate).ToList();
-            DateTime firstDate = Convert.ToDateTime(startDate);
-            DateTime lastDate = Convert.ToDateTime(endDate);
-            int holidayCount = 0;
+            var context = new MyContext();
+            string number = User.Identity.Name;
+            int studentId = context.Students.Where(x => x.StudentNumber == number).Select(x => x.StudentId).FirstOrDefault();
+            var list = context.InternForms.Where(x => x.StudentId == studentId).OrderByDescending(x => x.FileDate).Take(5);
+            Student kl = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
 
-            if (saturdayWork == "Hayır")
+            string gd = Guid.NewGuid().ToString().Substring(0, 8);
+            string fName = "";
+
+            if (files != null)
             {
-                foreach (DateTime isHoliday in holiday) 
+                foreach (var file in files)
                 {
-                    if ((isHoliday.ToString("dddd") != "Cumartesi" && isHoliday.ToString("dddd") != "Pazar") && (isHoliday >= firstDate && isHoliday <= lastDate))
+                    fName = file.FileName;
+                    if (file != null && file.ContentLength > 0)
                     {
-                        holidayCount++;
+                        var originalDirectory = new DirectoryInfo(string.Format("{0}InternFiles\\", Server.MapPath(@"\")));
+
+                        string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "Staj");
+
+                        var fileName1 = gd + "_" + Path.GetFileName(file.FileName);
+
+                        bool isExists = System.IO.Directory.Exists(pathString);
+
+                        if (!isExists)
+                            System.IO.Directory.CreateDirectory(pathString);
+
+                        var path = string.Format("{0}\\{1}", pathString, fileName1);
+                        file.SaveAs(path);
+
+                        sb.FileName = fileName1;
+                        sb.StudentId = studentId;
+                        sb.FileDate = DateTime.Now;
+
+                        context.InternForms.Add(sb);
+                        context.SaveChanges();
+
+                        kl.InternCaseId = 6;
+                        context.Entry(kl).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
                     }
                 }
             }
-
-            if (saturdayWork == "Evet")
-            {
-                foreach (DateTime isHoliday in holiday)
-                {
-                    if ((isHoliday.ToString("dddd") != "Pazar") && (isHoliday >= firstDate && isHoliday <= lastDate))
-                    {
-                        holidayCount++;
-                    }
-                }
-            }
-            string studentNumber = User.Identity.Name;
-            var studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
-            var list = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
-            if (saturdayWork == "Hayır")
-            {
-                int sonuc = WorkingCalculation(firstDate, lastDate);
-                int tsonuc = holidayCount;
-                int calismasuresi = sonuc - tsonuc;
-
-                if (calismasuresi > 30 || calismasuresi < 20)
-                {
-                    ViewBag.Mesaj1 = "Lütfen staj başlangıç ve bitiş tarihinizi yeniden seçiniz. Toplam çalışma gününüz hafta sonu ve resmi tatiller haricinde 20 günden az 30 günden fazla olmamalıdır.";
-                    return View(list);
-                }
-                internstdstart.WeekDayCount = sonuc;
-                internstdstart.HolidayCount = tsonuc;
-                internstdstart.WorkTime = calismasuresi;
-            }
-            if (saturdayWork == "Evet")
-            {
-                int sonuc = WorkingCalculation1(firstDate, lastDate);
-                int tsonuc = holidayCount;
-                int calismasuresi = sonuc - tsonuc;
-                if (calismasuresi > 30 || calismasuresi < 20)
-                {
-                    ViewBag.Mesaj1 = "Lütfen staj başlangıç ve bitiş tarihinizi yeniden seçiniz. Toplam çalışma gününüz pazar günü ve resmi tatiller haricinde 20 günden az 30 günden fazla olmamalıdır.";
-                    return View(list);
-                }
-                internstdstart.WeekDayCount = sonuc;
-                internstdstart.HolidayCount = tsonuc;
-                internstdstart.WorkTime = calismasuresi;
-            }
-            internstdstart.WorkPlaceName = workName;
-            internstdstart.InternStart = startDate;
-            internstdstart.InternEnd = endDate;
-            internstdstart.SaturdayWork = saturdayWork;
-            internstdstart.StudentId = studentId;
-            internstdstart.Date = DateTime.Now;
-            internstdstart.WorkPlaceAdress = workAdress;
-            context.InternStudentStarts.Add(internstdstart);
-            context.SaveChanges();
-            ViewBag.Mesaj = "Staj Başvuru Formunuz Başarıyla Kaydedilmiştir.";
             return View(list);
         }
-
-        [ActionName("MyInternStartForm")]
-        public ActionResult MyInternStartForm()
+        public FileResult FormDownload(string file)
         {
-            var context = new MyContext();
-            string studentNumber = User.Identity.Name;
-            int studentId = context.Students.Where(x => x.StudentNumber == studentNumber).Select(x => x.StudentId).FirstOrDefault();
-            var data = context.InternStudentStarts.Where(x => x.Student.StudentId == studentId).ToList();
-            if (data.Count() == 0)
-            {
-                ViewBag.Mesaj = "Başvurunuz bulunmamaktadır. Lütfen staj başvuru formunu doldurup kaydediniz.";
-                return View(data);
-            }
-            ViewBag.Mesaj1 = "Staj başvuru formunuz sisteme kaydedilmiştir. Kaydedilen başvuru/başvurularınızı aşağıda görebilirsiniz.";
-            return View(data);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath("~/InternFiles/Staj/" + file + ""));
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file);
         }
-        public void InternStartFormRemove(int id)
+
+        public ActionResult FormShow(string dosya)
+        {
+            FileInfo file = new FileInfo(Server.MapPath("~/InternFiles/Staj/" + dosya + ""));
+
+            if (file.Exists)
+            {
+                Response.ContentType = "application/pdf";
+                Response.Clear();
+                Response.TransmitFile(file.FullName);
+                Response.End();
+            }
+            return View();
+        }
+
+        public void FormRemove(int id)
         {
             var context = new MyContext();
-            var data = context.InternStudentStarts.Where(m => m.InternStudentStartId == id).FirstOrDefault();
-            context.InternStudentStarts.Remove(data);
+            var data = context.InternForms.Where(m => m.FileId == id).FirstOrDefault();
+            var bookName = context.InternForms.Where(m => m.FileId == id).Select(x => x.FileName).FirstOrDefault();
+            if (bookName != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath("~/InternBooks/Books/" + bookName)))
+                {
+                    System.IO.File.Delete(Server.MapPath("~/InternBooks/Books/" + bookName));
+                }
+            }
+            string number = User.Identity.Name;
+            int studentId = context.Students.Where(x => x.StudentNumber == number).Select(x => x.StudentId).FirstOrDefault();
+            Student kl = context.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+            kl.InternCaseId = 4;
+            context.InternForms.Remove(data);
             context.Entry(data).State = System.Data.Entity.EntityState.Deleted;
             context.SaveChanges();
         }

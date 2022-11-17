@@ -6,15 +6,13 @@ using System.Web;
 
 namespace YazGelProje.Models
 {
-    public class Intern
+    public class InternForm
     {
         [Key]
-        public int InternId { get; set; }
-        public string Title { get; set; }
-        public string Desciription { get; set; }
-        public DateTime? InternDate { get; set; }
+        public int FileId { get; set; }
+        public string FileName { get; set; }
+        public DateTime? FileDate { get; set; }
         public int? StudentId { get; set; }
-        public int? InternSemesterNumber { get; set; }
         public virtual Student Student { get; set; }
     }
 }

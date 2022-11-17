@@ -88,32 +88,23 @@
                     <li class="nav-author">
                         <div class="dropdown-custom">
                             <a href="javascript:;" class="nav-item-toggle">
-                                <img src="~/img/author-nav.jpg" alt=""
+                                <img src="~/Content/Resimler/admin.png" alt=""
                                      class="rounded-circle">
                             </a>
                             <div class="dropdown-wrapper">
                                 <div class="nav-author__info">
                                     <div class="author-img">
-                                        <img src="~/img/author-nav.jpg" alt="" class="rounded-circle">
+                                        <img src="~/Content/Resimler/admin.png" alt="" class="rounded-circle">
                                     </div>
                                     <div>
-                       
-                             
-                                            <h6>AD SOYAD</h6>
-                                            <span>Öğretmen</span>
-           
+                                            <h6>ADMIN</h6>
                                     </div>
                                 </div>
                                 <div class="nav-author__options">
                                     <ul>
                                         <li>
-                                            <a href="">
-                                                <span data-feather="user"></span> Profil
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <span data-feather="settings"></span> Ayarlar
+                                            <a href="@Url.Action("ConfirmPassword","Admin")">
+                                                <span data-feather="key"></span> Parola Değiştir
                                             </a>
                                         </li>
                                     </ul>
@@ -153,7 +144,7 @@
                         <li>
                             <a href="@Url.Action("InternFileUpload","Admin")" class="">
                                 <span data-feather="folder" class="nav-icon"></span>
-                                <span class="menu-text">Staj Evrakları</span>
+                                <span class="menu-text">Staj Bilgi Evrakları</span>
                             </a>
                         </li>
                         <li>

@@ -159,6 +159,57 @@ namespace YazGelProje.Controllers
             }
         }
 
+        [HttpGet]
+        [ActionName("InternForms")]
+        public ActionResult InternForms()
+        {
+            var context = new MyContext();
+            var kullaniciresult = context.Students.Where(x => x.ToApply == false || x.ToApply == null).ToList();
+
+            studentModel result = new studentModel
+            {
+                students = kullaniciresult
+            };
+
+            ViewBag.list = context.InternCases.Where(x => x.Hidden == true).ToList();
+
+            //ViewBag.liste = context.StajDurum.ToList();
+
+            return View(result);
+        }
+
+        [HttpPost]
+        [ActionName("InternForms")]
+        public ActionResult InternForms(int? internCaseId, int? StudentID)
+        {
+            var context = new MyContext();
+            var kullaniciresult = context.Students.Where(x => x.ToApply == false || x.ToApply == null).ToList();
+
+            studentModel result = new studentModel
+            {
+                students = kullaniciresult
+            };
+
+            ViewBag.list = context.InternCases.ToList();
+
+            Student st = context.Students.Where(x => x.StudentId == StudentID).FirstOrDefault();
+
+            if (st != null)
+            {
+                st.InternCaseId = internCaseId;
+                context.Entry(st).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+
+                return View(result);
+            }
+            else
+            {
+                ViewBag.Uyari = "Lütfen öğrenci bilgisini seçiniz.";
+                return View(result);
+            }
+        }
+
+
         [HttpPost]
         public JsonResult InternStartFileTake(int id)
         {
@@ -205,6 +256,29 @@ namespace YazGelProje.Controllers
             return Json(son);
         }
 
+        [HttpPost]
+        public JsonResult InternFormTake(int id)
+        {
+            var context = new MyContext();
+            var file = context.InternForms.Include("Student").Where(m => m.StudentId == id).OrderByDescending(x => x.FileDate).Take(5);
+
+            List<InternForm> son = new List<InternForm>();
+
+            ViewBag.list = context.InternCases.ToList();
+
+            foreach (var item in file)
+            {
+                son.Add(new InternForm
+                {
+                    FileId = item.FileId,
+                    FileName = item.FileName,
+                    StudentId = item.StudentId,
+                    FileDate = item.FileDate
+                });
+            }
+            return Json(son);
+        }
+
         public JsonResult InternStartCase(int? id)
         {
             var context = new MyContext();
@@ -221,30 +295,73 @@ namespace YazGelProje.Controllers
         }
 
         [HttpGet]
-        [ActionName("InternStudentStartInfo")]
-        public ActionResult InternStudentStartInfo()
+        [ActionName("PasswordEdit")]
+        public ActionResult PasswordEdit()
         {
             var context = new MyContext();
-            var data = context.InternStudentStarts.OrderBy(x => x.Date).ToList();
-
+            string teacherSicilNo = User.Identity.Name;
+            int teacherId = context.Teachers.Where(x => x.SicilNo == teacherSicilNo).Select(x => x.TeacherId).FirstOrDefault();
+            var data = context.Teachers.Where(x => x.TeacherId == teacherId).FirstOrDefault();
             return View(data);
         }
 
         [HttpPost]
-        [ActionName("InternStudentStartInfo")]
-        public ActionResult InternStudentStartInfo(DateTime? startDate, DateTime? finishDate)
+        [ActionName("PasswordEdit")]
+        public ActionResult PasswordEdit(string password, string confirmPassword)
         {
             var context = new MyContext();
-            var result = context.InternStudentStarts.Where(entry => entry.Date >= startDate.Value).Where(entry => entry.Date <= finishDate.Value).OrderBy(x => x.Date).ToList();
+            string teacherSicilNo = User.Identity.Name;
+            int teacherId = context.Teachers.Where(x => x.SicilNo == teacherSicilNo).Select(x => x.TeacherId).FirstOrDefault();
+            var data = context.Teachers.Where(x => x.TeacherId == teacherId).FirstOrDefault();
+            Teacher teacher = context.Teachers.Where(x => x.TeacherId == teacherId).FirstOrDefault();
+            teacher.Password = password;
 
-            if (result.Count() == 0)
+            if (confirmPassword == password)
             {
-                ViewBag.Mesaj = "Seçili tarihler arasında kayıt bulunamadı.";
+                context.Entry(teacher).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+
+                ViewBag.Mesaj = "Parolanız güncellendi";
+
+                return View(data);
+            }
+            else
+            {
+                ViewBag.Hata = "Parola uyumlu değil.";
                 return View();
             }
 
-            ViewBag.Mesaj1 = startDate.Value.Date.ToString().TrimEnd('0', ':') + " ve " + finishDate.Value.Date.ToString().TrimEnd('0', ':') + " " + " staj başlangıç tarihli öğrencilerin kayıtları listelenmiştir.";
-            return View(result);
+        }
+
+        [HttpGet]
+        [ActionName("ConfirmPassword")]
+        public ActionResult ConfirmPassword()
+        {
+            var context = new MyContext();
+            string teacherSicilNo = User.Identity.Name;
+            int teacherId = context.Teachers.Where(x => x.SicilNo == teacherSicilNo).Select(x => x.TeacherId).FirstOrDefault();
+            var data = context.Teachers.Where(x => x.TeacherId == teacherId).FirstOrDefault();
+            return View(data);
+        }
+
+        [HttpPost]
+        [ActionName("ConfirmPassword")]
+        public ActionResult ConfirmPassword(string password)
+        {
+            var context = new MyContext();
+            string teacherSicilNo = User.Identity.Name;
+            int teacherId = context.Teachers.Where(x => x.SicilNo == teacherSicilNo).Select(x => x.TeacherId).FirstOrDefault();
+            var teacherPassword = context.Teachers.Where(x => x.TeacherId == teacherId).FirstOrDefault();
+
+            if (password == teacherPassword.Password)
+            {
+                return RedirectToAction("PasswordEdit", "Teacher");
+            }
+            else
+            {
+                ViewBag.Mesaj = "Hatalı Parola";
+                return View();
+            }
         }
     }
 }

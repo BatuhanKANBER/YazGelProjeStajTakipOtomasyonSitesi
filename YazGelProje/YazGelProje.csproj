@@ -140,18 +140,15 @@
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Commission.cs" />
     <Compile Include="Models\FileModel.cs" />
-    <Compile Include="Models\Holiday.cs" />
-    <Compile Include="Models\Intern.cs" />
     <Compile Include="Models\InternBookToGive.cs" />
     <Compile Include="Models\InternCase.cs" />
     <Compile Include="Models\InternFile.cs" />
-    <Compile Include="Models\InternStudentStart.cs" />
+    <Compile Include="Models\InternForm.cs" />
     <Compile Include="Models\SemesterStart.cs" />
     <Compile Include="Models\MyContext.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\SuperAdmin.cs" />
     <Compile Include="Models\Teacher.cs" />
-    <Compile Include="Models\ToBackFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1118,7 +1115,9 @@
     <Content Include="Content\js\jquery.MultiFile.js" />
     <Content Include="Content\js\jquery.MultiFile.pack.js" />
     <Content Include="Content\js\jquery.validate.js" />
+    <Content Include="Content\Resimler\admin.png" />
     <Content Include="Content\Resimler\kou.png" />
+    <Content Include="Content\Resimler\png-clipart-computer-icons-system-administrator-id-computer-network-heroes.png" />
     <Content Include="Content\style.css" />
     <Content Include="Content\Styles\lunar.css" />
     <Content Include="favicon.ico" />
@@ -1747,14 +1746,9 @@
     <Content Include="Views\Login\TeacherAlert.cshtml" />
     <Content Include="Views\Admin\SetAuthority.cshtml" />
     <Content Include="Views\Admin\Authority.cshtml" />
-    <Content Include="Views\Student\InternBook.cshtml" />
-    <Content Include="Views\Admin\Holidays.cshtml" />
-    <Content Include="Views\Student\InternStartForm.cshtml" />
-    <Content Include="Views\Student\MyInternStartForm.cshtml" />
     <Content Include="Views\Student\InternBookUpload.cshtml" />
     <Content Include="Views\Teacher\InternStartFiles.cshtml" />
     <Content Include="Views\Teacher\InternBookFiles.cshtml" />
-    <Content Include="Views\Teacher\InternStudentStartInfo.cshtml" />
     <Content Include="Views\Admin\InternFileUpload.cshtml" />
     <Content Include="Views\Admin\InternFileEdit.cshtml" />
     <Content Include="Views\SuperAdmin\InternFileUpload.cshtml" />
@@ -1768,6 +1762,14 @@
     <Content Include="Views\Admin\InternBookFiles.cshtml" />
     <Content Include="Views\Admin\InternStartFiles.cshtml" />
     <Content Include="Views\Teacher\ProfileEdit.cshtml" />
+    <Content Include="Views\Student\PasswordEdit.cshtml" />
+    <Content Include="Views\Student\ConfirmPassword.cshtml" />
+    <Content Include="Views\Teacher\ConfirmPassword.cshtml" />
+    <Content Include="Views\Teacher\PasswordEdit.cshtml" />
+    <Content Include="Views\Admin\ConfirmPassword.cshtml" />
+    <Content Include="Views\Admin\PasswordEdit.cshtml" />
+    <Content Include="Views\Student\FormUpload.cshtml" />
+    <Content Include="Views\Teacher\InternForms.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

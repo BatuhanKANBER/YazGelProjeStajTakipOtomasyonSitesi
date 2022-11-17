@@ -73,7 +73,7 @@
                 var context = new MyContext();
                 string userIdentityName = User.Identity.Name;
                 string internCase = context.Students.Where(x => x.StudentNumber == userIdentityName).Select(x => x.InternCase.Case).FirstOrDefault();
-                <h2 style="font-weight:bold;font-style:italic;color:royalblue">Staj Durumunuz: @internCase</h2>
+                <h2 style="font-weight:bold;font-style:italic;color:#20C997">Staj Durumunuz: @internCase</h2>
             }
             <div class="navbar-right">
                 <ul class="navbar-right__menu">
@@ -118,6 +118,11 @@
                                                 <span data-feather="user"></span> Profil
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="@Url.Action("ConfirmPassword","Student")">
+                                                <span data-feather="key"></span> Parola Değiştir
+                                            </a>
+                                        </li>
                                     </ul>
                                     <a href="@Url.Action("StudentLogout","Login")" class="nav-author__signout">
                                         <span data-feather="log-out"></span> Çıkış Yap
@@ -151,18 +156,36 @@
             <div class="sidebar sidebar-collapse" id="sidebar">
                 <div class="sidebar__menu-group">
                     <ul class="sidebar_nav">
-                        <li>
-                            <a href="@Url.Action("FileUpload","Student")" class="">
-                                <span data-feather="file-plus" class="nav-icon"></span>
-                                <span class="menu-text">Staj Kabul Formu Yükle</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("InternBookUpload","Student")" class="">
-                                <span data-feather="file-plus" class="nav-icon"></span>
-                                <span class="menu-text">Staj Defteri Yükle</span>
-                            </a>
-                        </li>
+                        @if (internCase == "Reddedildi" || internCase == "Beklemede(Başvuru Onay Bekliyor)" || internCase == "Başvuru Yapılmadı")
+                        {
+                            <li>
+                                <a href="@Url.Action("FileUpload","Student")" class="">
+                                    <span data-feather="file-plus" class="nav-icon"></span>
+                                    <span class="menu-text">Staj Kabul Formu Yükle</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="@Url.Action("FileUpload","Student")" class="">
+                                    <span data-feather="file-plus" class="nav-icon"></span>
+                                    <span class="menu-text">Staj Kabul Formu Yükle</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("InternBookUpload","Student")" class="">
+                                    <span data-feather="file-plus" class="nav-icon"></span>
+                                    <span class="menu-text">Staj Defteri Yükle</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("FormUpload","Student")" class="">
+                                    <span data-feather="file-plus" class="nav-icon"></span>
+                                    <span class="menu-text">Staj Değerlendirme Formu Yükle</span>
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

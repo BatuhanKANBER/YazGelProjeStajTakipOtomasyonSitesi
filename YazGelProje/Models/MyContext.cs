@@ -20,11 +20,8 @@ namespace YazGelProje.Models
         public DbSet<SemesterStart> SemesterStarts { get; set; }
         public DbSet<InternFile> InternFiles { get; set; }
         public DbSet<InternCase> InternCases { get; set; }
-        public DbSet<Intern> Interns { get; set; }
         public DbSet<InternBookToGive> InternBookToGives { get; set; }
-        public DbSet<InternStudentStart> InternStudentStarts { get; set; }
-        public DbSet<ToBackFile> ToBackFiles { get; set; }
-        public DbSet<Holiday> Holidays { get; set; }
         public DbSet<FileModel> FileModels { get; set; }
+        public DbSet<InternForm> InternForms { get; set; }
     }
 }

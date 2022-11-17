@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -60,6 +61,97 @@ namespace YazGelProje.Controllers
             return View(student);
         }
 
+        SqlCommand komut;
+        public int TcNoVarMi(string Tc)
+        {
+            int sonuc;
+            string constr = ConfigurationManager.ConnectionStrings["MyContext"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = "Select COUNT(Tc) from Students WHERE Tc='" + Tc + "'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    komut = new SqlCommand(query, con);
+                    con.Open();
+                    sonuc = Convert.ToInt32(komut.ExecuteScalar());
+                    con.Close();
+                    return sonuc;
+                }
+            }
+        }
+
+        public int StudentNumberVarMi(string StudentNumber)
+        {
+            int sonuc;
+            string constr = ConfigurationManager.ConnectionStrings["MyContext"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = "Select COUNT(StudentNumber) from Students WHERE StudentNumber='" + StudentNumber + "'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    komut = new SqlCommand(query, con);
+                    con.Open();
+                    sonuc = Convert.ToInt32(komut.ExecuteScalar());
+                    con.Close();
+                    return sonuc;
+                }
+            }
+        }
+        public int TeacherEmailVarMi(string Email)
+        {
+            int sonuc;
+            string constr = ConfigurationManager.ConnectionStrings["MyContext"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = "Select COUNT(Email) from Teachers WHERE Email='" + Email + "'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    komut = new SqlCommand(query, con);
+                    con.Open();
+                    sonuc = Convert.ToInt32(komut.ExecuteScalar());
+                    con.Close();
+                    return sonuc;
+                }
+            }
+        }
+
+        public int EmailVarMi(string Email)
+        {
+            int sonuc;
+            string constr = ConfigurationManager.ConnectionStrings["MyContext"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = "Select COUNT(Email) from Students WHERE Email='" + Email + "'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    komut = new SqlCommand(query, con);
+                    con.Open();
+                    sonuc = Convert.ToInt32(komut.ExecuteScalar());
+                    con.Close();
+                    return sonuc;
+                }
+            }
+        }
+
+        public int SicilNoVarMi(string SicilNo)
+        {
+            int sonuc;
+            string constr = ConfigurationManager.ConnectionStrings["MyContext"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = "Select COUNT(SicilNo) from Teachers WHERE SicilNo='" + SicilNo + "'";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    komut = new SqlCommand(query, con);
+                    con.Open();
+                    sonuc = Convert.ToInt32(komut.ExecuteScalar());
+                    con.Close();
+                    return sonuc;
+                }
+            }
+        }
+
+
         [HttpGet]
         [ActionName("StudentAdd")]
         public ActionResult StudentAdd()
@@ -69,15 +161,33 @@ namespace YazGelProje.Controllers
 
         [HttpPost]
         [ActionName("StudentAdd")]
-        public ActionResult StudentAdd(Student student)
+        public ActionResult StudentAdd(Student student, string Tc, string StudentNumber, string Email)
         {
             var context = new MyContext();
-            UpdateModel(student);
-            context.Students.Add(student);
-            context.SaveChanges();
-            return RedirectToAction("StudentList", "Admin");
-
-
+            if (TcNoVarMi(Tc) != 0)
+            {
+                ViewBag.Message = "Bu TC no ile daha önce kayıt yapılmış.";
+            }
+            else if (StudentNumberVarMi(StudentNumber) != 0)
+            {
+                ViewBag.Message = "Bu öğrenci no ile daha önce kayıt yapılmış.";
+            }
+            else if (EmailVarMi(Email) != 0)
+            {
+                ViewBag.Message = "Bu e-posta ile daha önce kayıt yapılmış.";
+            }
+            else
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View("StudentAdd");
+                }
+                UpdateModel(student);
+                context.Students.Add(student);
+                context.SaveChanges();
+                return RedirectToAction("StudentList", "Admin");
+            }
+            return View();
         }
 
         [HttpGet]
@@ -94,6 +204,7 @@ namespace YazGelProje.Controllers
         public ActionResult StudentEdit(int? id, Student student)
         {
             var context = new MyContext();
+
             var model = context.Students.Find(id);
             model.Name = student.Name;
             UpdateModel(model);
@@ -128,6 +239,10 @@ namespace YazGelProje.Controllers
         public ActionResult TeacherAdd(Teacher teacher)
         {
             var context = new MyContext();
+            if (!ModelState.IsValid)
+            {
+                return View("TeacherAdd");
+            }
             UpdateModel(teacher);
             context.Teachers.Add(teacher);
             context.SaveChanges();
@@ -145,14 +260,26 @@ namespace YazGelProje.Controllers
 
         [HttpPost]
         [ActionName("TeacherEdit")]
-        public ActionResult TeacherEdit(int? id, Teacher teacher)
+        public ActionResult TeacherEdit(int? id, Teacher teacher, string SicilNo, string Email)
         {
             var context = new MyContext();
-            var model = context.Teachers.Find(id);
-            model.Name = teacher.Name;
-            UpdateModel(model);
-            context.SaveChanges();
-            return RedirectToAction("TeacherList", "Admin");
+            if (SicilNoVarMi(SicilNo) != 0)
+            {
+                ViewBag.Message = "Bu sicil no ile daha önce kayıt yapılmış.";
+            }
+            else if (TeacherEmailVarMi(Email) != 0)
+            {
+                ViewBag.Message = "Bu e-posta ile daha önce kayıt yapılmış.";
+            }
+            else
+            {
+                var model = context.Teachers.Find(id);
+                model.Name = teacher.Name;
+                UpdateModel(model);
+                context.SaveChanges();
+                return RedirectToAction("TeacherList", "Admin");
+            }
+            return View();
         }
         public ActionResult TeacherRemove(int? id)
         {
@@ -206,58 +333,6 @@ namespace YazGelProje.Controllers
             return View(teacherRole);
         }
 
-
-
-
-        [HttpGet]
-        [ActionName("Holidays")]
-        public ActionResult Holidays()
-        {
-            var context = new MyContext();
-            var data = context.Holidays.OrderBy(x => x.HolidayDate).ToList();
-            return View(data);
-        }
-
-        [HttpPost]
-        [ActionName("Holidays")]
-        public ActionResult Holidays(Holiday holiday, DateTime? holidayDate, string description)
-        {
-            var context = new MyContext();
-            holiday.HolidayDate = holidayDate;
-            holiday.Description = description;
-            context.Holidays.Add(holiday);
-            context.SaveChanges();
-            Response.Redirect("Holidays", true);
-            var data = context.Holidays.ToList();
-            return View(data);
-        }
-
-
-        public void HolidayRemove(int id)
-        {
-            var context = new MyContext();
-            var data = context.Holidays.Where(m => m.HolidayId == id).FirstOrDefault();
-            context.Holidays.Remove(data);
-            context.Entry(data).State = System.Data.Entity.EntityState.Deleted;
-            context.SaveChanges();
-        }
-
-        public static int WorkingCalculation(DateTime startDate, DateTime endDate)
-        {
-            DateTime date = startDate;
-            int dayCount = 0;
-            string gun = string.Empty;
-            while (date <= endDate)
-            {
-                gun = date.ToString("dddd");
-                if (gun != "Cumartesi" && gun != "Pazar")
-                {
-                    dayCount++;
-                }
-                date = date.AddDays(1);
-            }
-            return dayCount;
-        }
 
         [HttpGet]
         [ActionName("InternFileUpload")]
@@ -548,31 +623,76 @@ namespace YazGelProje.Controllers
             return Json(itemlist, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpGet]
-        [ActionName("InternStudentStartInfo")]
-        public ActionResult InternStudentStartInfo()
+        [ActionName("PasswordEdit")]
+        public ActionResult PasswordEdit()
         {
             var context = new MyContext();
-            var data = context.InternStudentStarts.OrderBy(x => x.Date).ToList();
-
+            string adminName = User.Identity.Name;
+            int adminId = context.Admins.Where(x => x.AdminName == adminName).Select(x => x.AdminId).FirstOrDefault();
+            var data = context.Admins.Where(x => x.AdminId == adminId).FirstOrDefault();
             return View(data);
         }
 
         [HttpPost]
-        [ActionName("InternStudentStartInfo")]
-        public ActionResult InternStudentStartInfo(DateTime? startDate, DateTime? finishDate)
+        [ActionName("PasswordEdit")]
+        public ActionResult PasswordEdit(string password, string confirmPassword)
         {
             var context = new MyContext();
-            var result = context.InternStudentStarts.Where(entry => entry.Date >= startDate.Value).Where(entry => entry.Date <= finishDate.Value).OrderBy(x => x.Date).ToList();
+            string adminName = User.Identity.Name;
+            int adminId = context.Admins.Where(x => x.AdminName == adminName).Select(x => x.AdminId).FirstOrDefault();
+            var data = context.Admins.Where(x => x.AdminId == adminId).FirstOrDefault();
+            Admin admin = context.Admins.Where(x => x.AdminId == adminId).FirstOrDefault();
 
-            if (result.Count() == 0)
+            admin.Password = password;
+
+            if (confirmPassword == password)
             {
-                ViewBag.Mesaj = "Seçili tarihler arasında kayıt bulunamadı.";
+                context.Entry(admin).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+
+                ViewBag.Mesaj = "Parolanız güncellendi";
+
+                return View(data);
+            }
+            else
+            {
+                ViewBag.Hata = "Parola uyumlu değil.";
                 return View();
             }
 
-            ViewBag.Mesaj1 = startDate.Value.Date.ToString().TrimEnd('0', ':') + " ve " + finishDate.Value.Date.ToString().TrimEnd('0', ':') + " " + " staj başlangıç tarihli öğrencilerin kayıtları listelenmiştir.";
-            return View(result);
+        }
+
+        [HttpGet]
+        [ActionName("ConfirmPassword")]
+        public ActionResult ConfirmPassword()
+        {
+            var context = new MyContext();
+            string adminName = User.Identity.Name;
+            int adminId = context.Admins.Where(x => x.AdminName == adminName).Select(x => x.AdminId).FirstOrDefault();
+            var data = context.Admins.Where(x => x.AdminId == adminId).FirstOrDefault();
+            return View(data);
+        }
+
+        [HttpPost]
+        [ActionName("ConfirmPassword")]
+        public ActionResult ConfirmPassword(string password)
+        {
+            var context = new MyContext();
+            string adminName = User.Identity.Name;
+            int adminId = context.Admins.Where(x => x.AdminName == adminName).Select(x => x.AdminId).FirstOrDefault();
+            var adminPassword = context.Admins.Where(x => x.AdminId == adminId).FirstOrDefault();
+
+            if (password == adminPassword.Password)
+            {
+                return RedirectToAction("PasswordEdit", "Admin");
+            }
+            else
+            {
+                ViewBag.Mesaj = "Hatalı Parola";
+                return View();
+            }
         }
 
     }

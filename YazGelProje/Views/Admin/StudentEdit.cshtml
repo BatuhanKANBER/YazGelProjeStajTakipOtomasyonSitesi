@@ -31,14 +31,18 @@
             <div class="card-body py-md-30">
                 <div class="horizontal-form">
                     <form action="#">
+                        <div style="background-color:darkred; text-align:center; align-items:center;">
+                            <h3 style="color: white;">@ViewBag.Message</h3>
+                        </div>
                         <div class="form-group row mb-25">
                             <div class="col-sm-3 d-flex aling-items-center">
                                 <label for="inputNameIcon" class=" col-form-label color-dark fs-14 fw-500 align-center">Tc</label>
                             </div>
                             <div class="col-sm-9">
                                 <div class="with-icon">
-                                    @Html.EditorFor(model => model.Tc, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "tcno", placeholder = "Tc No" } })
-                                    @Html.ValidationMessageFor(model => model.Tc, "", new { @class = "text-danger" })
+                                    <input class="form-control  ih-medium ip-gray radius-xs b-light" name="Tc" , id="tcno" , placeholder="Tc No" />
+                                    @*@Html.EditorFor(model => model.Tc, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "tcno", placeholder = "Tc No" } })
+                    @Html.ValidationMessageFor(model => model.Tc, "", new { @class = "text-danger" })*@
                                 </div>
                             </div>
                         </div>
@@ -50,8 +54,9 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="with-icon">
-                                    @Html.EditorFor(model => model.StudentNumber, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "studentNumber", placeholder = "Öğrenci No" } })
-                                    @Html.ValidationMessageFor(model => model.StudentNumber, "", new { @class = "text-danger" })
+                                    <input class="form-control  ih-medium ip-gray radius-xs b-light" name="StudentNumber" , id="studentNumber" , placeholder="Öğrenci No" />
+                                    @*@Html.EditorFor(model => model.StudentNumber, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "studentNumber", placeholder = "Öğrenci No" } })
+                    @Html.ValidationMessageFor(model => model.StudentNumber, "", new { @class = "text-danger" })*@
                                 </div>
                             </div>
                         </div>
@@ -90,8 +95,9 @@
                             </div>
                             <div class="col-sm-9">
                                 <div class="with-icon">
-                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "email", placeholder = "example@kou.edu.tr" } })
-                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    <input class="form-control  ih-medium ip-gray radius-xs b-light" name="Email" , id="email" , placeholder="example@kou.edu.tr" />
+                                    @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control  ih-medium ip-gray radius-xs b-light", id = "email", placeholder = "example@kou.edu.tr" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })*@
                                 </div>
                             </div>
                         </div>
@@ -172,7 +178,7 @@
                             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                         </div>
                         <div class="layout-button mt-25">
-                            <input type="submit" value="Güncelle" class="btn btn-primary btn-default btn-squared px-30" />
+                            <input type="submit" value="Güncelle" class="btn btn-success btn-default btn-squared px-30" />
                         </div>
                     </div>
                 </div>
